@@ -7,9 +7,9 @@ public class Menu {
 
     public void displayMenu() {
         Scanner sc =  new Scanner(System.in);
-        CinemaRoom cinemaRoom = new CinemaRoom();
+        Room room = new Room();
 
-        cinemaRoom.createCinemaRoom();
+        room.createCinemaRoom();
         boolean terminate = true;
 
         while (terminate) {
@@ -18,14 +18,14 @@ public class Menu {
 
             switch (action) {
                 case 1:
-                    var roomView = cinemaRoom.getSeatsView();
+                    var roomView = room.getSeatsView();
                     System.out.println(roomView);
                     break;
                 case 2:
-                    cinemaRoom.buyTicket();
+                    room.buyTicket();
                     break;
                 case 3:
-                    cinemaRoom.displayStatistics();
+                    room.displayStatistics();
                     break;
                 case 0:
                     terminate = false;
