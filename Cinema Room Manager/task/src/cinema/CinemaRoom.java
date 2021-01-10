@@ -72,7 +72,7 @@ public class CinemaRoom {
         }
     }
 
-    public void displayCinemaRoom() {
+    public String displayCinemaRoom() {
         var sb =  new StringBuilder();
         sb.append("Cinema:\n");
         sb.append("   ");
@@ -87,7 +87,7 @@ public class CinemaRoom {
             }
             sb.append("\n");
         }
-        System.out.println(sb.toString());
+        return sb.toString();
     }
 
     public void buyTicket() {
