@@ -11,7 +11,7 @@ public class Room {
     private final int FRONT_PRICE = 10;
     private final int BACK_PRICE = 8;
 
-    private String[][] seats;
+    private int[][] seats;
 
     private int rowCount;
     private int seatCount;
@@ -55,23 +55,15 @@ public class Room {
         rowCount = sc.nextInt();
         System.out.println("Enter the number of seats in each row:");
         seatCount = sc.nextInt();
-        seats = new String[rowCount + 1][seatCount + 1];
-        fillSeats();
+        seats = new int[rowCount][seatCount];
+        initSeats();
         settingTicketPrice();
     }
 
-    public void fillSeats() {
-        for (int i = 0; i < seats.length; i++) {
-            for (int j = 0; j < seats[i].length; j++) {
-                if (i == 0 && j == 0) {
-                    seats[i][j] = " ";
-                } else if (i == 0) {
-                    seats[i][j] = String.valueOf(j);
-                } else if (j == 0) {
-                    seats[i][j] = String.valueOf(i);
-                } else {
-                    seats[i][j] = "S";
-                }
+    public void initSeats() {
+        for (int rowIdx = 0; rowIdx < rowCount; rowIdx++) {
+            for (int seatIdx = 0; seatIdx < seatCount; seatIdx++) {
+                seats[rowIdx][seatIdx] = 0;
             }
         }
     }
@@ -80,14 +72,15 @@ public class Room {
         var sb =  new StringBuilder();
         sb.append("Cinema:\n");
         sb.append("   ");
-        for (int seatIdx = 1; seatIdx<= seatCount; seatIdx++) {
-            sb.append(String.format("%3d",seatIdx));
+        for (int seatIdx = 0; seatIdx< seatCount; seatIdx++) {
+            sb.append(String.format("%3d",seatIdx+1));
         }
         sb.append("\n");
-        for (int rowIdx = 1; rowIdx<= rowCount; rowIdx++) {
-            sb.append(String.format("%2d:",rowIdx));
-            for (int seatIdx = 1; seatIdx<= seatCount; seatIdx++) {
-                sb.append(String.format("%3s", seats[rowIdx][seatIdx]));
+        for (int rowIdx = 0; rowIdx< rowCount; rowIdx++) {
+            sb.append(String.format("%2d:",rowIdx+1));
+            for (int seatIdx = 0; seatIdx< seatCount; seatIdx++) {
+                var seat = (seats[rowIdx][seatIdx]==0)?"-":"S";
+                sb.append(String.format("%3s", seat));
             }
             sb.append("\n");
         }
@@ -141,22 +134,29 @@ public class Room {
         setTotalIncome(frontSeats * FRONT_PRICE + backSeats * BACK_PRICE);
     }
 
+    private boolean isSoldSeat(int rowIdx,int seatIdx) {
+        return seats[rowIdx-1][seatIdx-1] != 0;
+    }
+
+    private void sellSeat(int rowIdx,int seaIdx) {
+        seats[rowIdx-1][seatIdx-1] = 1;
+    }
+
     private void selectSeat() {
-        boolean flag = true;
         do {
             System.out.println("Enter a row number:");
             rowIdx = sc.nextInt();
             System.out.println("Enter a seat number in that row:");
             seatIdx = sc.nextInt();
-            if (rowIdx < 0 || rowIdx > seats.length - 1 || seatIdx < 0 || seatIdx > seats[rowIdx].length - 1) {
+            if (rowIdx < 1 || rowIdx > seats.length || seatIdx < 1 || seatIdx > seats[rowIdx-1].length) {
                 System.out.println("Wrong input");
-            } else if (seats[rowIdx][seatIdx].equalsIgnoreCase("B")) {
+            } else if (isSoldSeat(rowIdx,seatIdx)) {
                 System.out.println("That ticket has already been purchased!");
             } else {
-                flag = false;
+                sellSeat(rowIdx,seatIdx);
+                return;
             }
-        } while (flag);
-        seats[rowIdx][seatIdx] = "B";
+        } while (false);
     }
 
     public void displayStatistics() {
