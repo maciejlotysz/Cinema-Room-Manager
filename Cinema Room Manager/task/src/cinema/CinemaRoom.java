@@ -72,7 +72,7 @@ public class CinemaRoom {
         }
     }
 
-    public String displayCinemaRoom() {
+    public String getSeatsView() {
         var sb =  new StringBuilder();
         sb.append("Cinema:\n");
         sb.append("   ");

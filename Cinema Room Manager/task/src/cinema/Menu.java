@@ -18,7 +18,7 @@ public class Menu {
 
             switch (action) {
                 case 1:
-                    var roomView = cinemaRoom.displayCinemaRoom();
+                    var roomView = cinemaRoom.getSeatsView();
                     System.out.println(roomView);
                     break;
                 case 2:
