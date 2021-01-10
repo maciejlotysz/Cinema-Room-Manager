@@ -76,9 +76,13 @@ public class CinemaRoom {
     public void displayCinemaRoom() {
 
         System.out.println("Cinema:");
+        int rowIdx = 0;
         for (String[] strings : cinema) {
+            rowIdx++;
+            int colIdx = 0;
             for (String string : strings) {
-                System.out.print(string + " ");
+                colIdx++;
+                System.out.print((colIdx < 10 || rowIdx>1) ? string + "  " : string + " ");
             }
             System.out.println();
         }
