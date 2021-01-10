@@ -72,21 +72,22 @@ public class CinemaRoom {
         }
     }
 
-
     public void displayCinemaRoom() {
-
-        System.out.println("Cinema:");
-        int rowIdx = 0;
-        for (String[] strings : cinema) {
-            rowIdx++;
-            int colIdx = 0;
-            for (String string : strings) {
-                colIdx++;
-                System.out.print((colIdx < 10 || rowIdx>1) ? string + "  " : string + " ");
-            }
-            System.out.println();
+        var sb =  new StringBuilder();
+        sb.append("Cinema:\n");
+        sb.append("   ");
+        for (int seatIdx=1; seatIdx<seats; seatIdx++) {
+            sb.append(String.format("%3d",seatIdx));
         }
-        System.out.println();
+        sb.append("\n");
+        for (int rowIdx=1; rowIdx<rows; rowIdx++) {
+            sb.append(String.format("%2d:",rowIdx));
+            for (int seatIdx=1; seatIdx<seats; seatIdx++) {
+                sb.append(String.format("%3s",cinema[rowIdx][seatIdx]));
+            }
+            sb.append("\n");
+        }
+        System.out.println(sb.toString());
     }
 
     public void buyTicket() {
