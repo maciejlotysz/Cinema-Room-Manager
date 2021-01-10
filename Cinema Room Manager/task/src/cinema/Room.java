@@ -147,7 +147,7 @@ public class Room {
             row = sc.nextInt();
             System.out.println("Enter a seat number in that row:");
             seat = sc.nextInt();
-            if (row < 0 || row > seats.length - 1 || seat < 0 || seat > seats.length - 1) {
+            if (row < 0 || row > seats.length - 1 || seat < 0 || seat > seats[row].length - 1) {
                 System.out.println("Wrong input");
             } else if (seats[row][seat].equalsIgnoreCase("B")) {
                 System.out.println("That ticket has already been purchased!");
