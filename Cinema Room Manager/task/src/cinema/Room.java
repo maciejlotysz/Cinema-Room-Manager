@@ -79,13 +79,13 @@ public class Room {
         var sb =  new StringBuilder();
         sb.append("Cinema:\n");
         sb.append("   ");
-        for (int seatIdx = 1; seatIdx< seatCount; seatIdx++) {
+        for (int seatIdx = 1; seatIdx<= seatCount; seatIdx++) {
             sb.append(String.format("%3d",seatIdx));
         }
         sb.append("\n");
-        for (int rowIdx = 1; rowIdx< rowCount; rowIdx++) {
+        for (int rowIdx = 1; rowIdx<= rowCount; rowIdx++) {
             sb.append(String.format("%2d:",rowIdx));
-            for (int seatIdx = 1; seatIdx< seatCount; seatIdx++) {
+            for (int seatIdx = 1; seatIdx<= seatCount; seatIdx++) {
                 sb.append(String.format("%3s", seats[rowIdx][seatIdx]));
             }
             sb.append("\n");
