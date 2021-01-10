@@ -16,8 +16,9 @@ public class Room {
     private int rowCount;
     private int seatCount;
 
-    private int row;
-    private int seat;
+    private int rowIdx;
+    private int seatIdx;
+
     private int totalSeats;
     private int currentIncome;
     private int totalIncome;
@@ -106,7 +107,7 @@ public class Room {
     private void countCurrentIncome() {
         if (totalSeats <= 60) {
             currentIncome += FRONT_PRICE;
-        } else if ((row <= rowCount / 2)) {
+        } else if ((rowIdx <= rowCount / 2)) {
             currentIncome += FRONT_PRICE;
         } else {
             currentIncome += BACK_PRICE;
@@ -132,7 +133,7 @@ public class Room {
         int frontSeats = rowCount / 2 * seatCount;
         int backSeats = totalSeats - frontSeats;
 
-        if (row <= rowCount / 2) {
+        if (rowIdx <= rowCount / 2) {
             ticketPrice = FRONT_PRICE;
         } else {
             ticketPrice = BACK_PRICE;
@@ -144,18 +145,18 @@ public class Room {
         boolean flag = true;
         do {
             System.out.println("Enter a row number:");
-            row = sc.nextInt();
+            rowIdx = sc.nextInt();
             System.out.println("Enter a seat number in that row:");
-            seat = sc.nextInt();
-            if (row < 0 || row > seats.length - 1 || seat < 0 || seat > seats[row].length - 1) {
+            seatIdx = sc.nextInt();
+            if (rowIdx < 0 || rowIdx > seats.length - 1 || seatIdx < 0 || seatIdx > seats[rowIdx].length - 1) {
                 System.out.println("Wrong input");
-            } else if (seats[row][seat].equalsIgnoreCase("B")) {
+            } else if (seats[rowIdx][seatIdx].equalsIgnoreCase("B")) {
                 System.out.println("That ticket has already been purchased!");
             } else {
                 flag = false;
             }
         } while (flag);
-        seats[row][seat] = "B";
+        seats[rowIdx][seatIdx] = "B";
     }
 
     public void displayStatistics() {
