@@ -82,22 +82,16 @@ public class Room {
 
     // ----------------------------------------------------------------------------
 
-    public void createCinemaRoom() {
-        System.out.println("Enter the number of rows:");
-        rowCount = sc.nextInt();
-        System.out.println("Enter the number of seats in each row:");
-        seatCount = sc.nextInt();
+    public void createCinemaRoom(int rowCount, int seatCount) {
+        this.rowCount = rowCount;
+        this.seatCount = seatCount;
         seats = new int[rowCount][seatCount];
-        initSeats();
-        settingTicketPrice();
-    }
-
-    public void initSeats() {
         for (int row = 1; row <= rowCount; row++) {
             for (int seat = 1; seat <= seatCount; seat++) {
                 seat_available(row,seat);
             }
         }
+        settingTicketPrice();
     }
 
     public String getSeatsView() {
