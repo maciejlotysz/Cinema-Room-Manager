@@ -73,3 +73,22 @@ Thumbs.db
 /gradle.ipr
 /gradle.iws
 /gradle.iws
+
+# hyperskill files
+# -------------------
+Cinema Room Manager/Arrangement/
+Cinema Room Manager/Errors_
+Cinema Room Manager/Menu, please_/
+Cinema Room Manager/Sold_/
+Cinema Room Manager/Tickets/
+Cinema Room Manager/lesson-info.yaml
+Cinema Room Manager/task/test/
+Problems/
+build.gradle
+course-info.yaml
+course-remote-info.yaml
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+
