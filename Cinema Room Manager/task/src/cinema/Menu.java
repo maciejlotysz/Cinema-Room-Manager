@@ -9,9 +9,13 @@ public class Menu {
         Scanner sc =  new Scanner(System.in);
         Room room = new Room();
 
-        room.createCinemaRoom();
-        boolean terminate = true;
+        System.out.println("Enter the number of rows:");
+        var rowCount = sc.nextInt();
+        System.out.println("Enter the number of seats in each row:");
+        var seatCount = sc.nextInt();
+        room.createCinemaRoom(rowCount, seatCount);
 
+        boolean terminate = true;
         while (terminate) {
             displayActions();
             int action = sc.nextInt();
