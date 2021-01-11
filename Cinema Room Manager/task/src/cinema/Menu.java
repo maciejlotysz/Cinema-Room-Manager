@@ -7,24 +7,29 @@ public class Menu {
 
     public void displayMenu() {
         Scanner sc =  new Scanner(System.in);
-        CinemaRoom cinemaRoom = new CinemaRoom();
+        Room room = new Room();
 
-        cinemaRoom.createCinemaRoom();
+        System.out.println("Enter the number of rows:");
+        var rowCount = sc.nextInt();
+        System.out.println("Enter the number of seats in each row:");
+        var seatCount = sc.nextInt();
+        room.createCinemaRoom(rowCount, seatCount);
+
         boolean terminate = true;
-
         while (terminate) {
             displayActions();
             int action = sc.nextInt();
 
             switch (action) {
                 case 1:
-                    cinemaRoom.displayCinemaRoom();
+                    var roomView = room.getSeatsView();
+                    System.out.println(roomView);
                     break;
                 case 2:
-                    cinemaRoom.buyTicket();
+                    room.buyTicket();
                     break;
                 case 3:
-                    cinemaRoom.displayStatistics();
+                    room.displayStatistics();
                     break;
                 case 0:
                     terminate = false;
