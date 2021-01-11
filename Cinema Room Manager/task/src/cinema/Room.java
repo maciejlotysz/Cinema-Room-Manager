@@ -16,8 +16,8 @@ public class Room {
     private int rowCount;
     private int seatCount;
 
-    private int rowIdx;
-    private int seatIdx;
+    private int rowNumber;
+    private int seatNumber;
 
     private int totalSeats;
     private int currentIncome;
@@ -49,6 +49,38 @@ public class Room {
         this.totalIncome = totalIncome;
     }
 
+    // ----------------------------------------------------------------------------
+    // Seat
+    // ----------------------------------------------------------------------------
+
+    private void seat_available(int rowNum, int seatNum) {
+        seats[rowNum-1][seatNum-1] = 0;
+    }
+    private void seat_sold(int rowNum, int seatNum) {
+        seats[rowNum-1][seatNum-1] = 1;
+    }
+
+    private String seat_toString(int rowNum, int seatNum) {
+        return (seats[rowNum - 1][seatNum - 1] == 0)?"-":"S";
+    }
+
+    private boolean seat_isSold(int rowNum,int seatNum) {
+        return seats[rowNum-1][seatNum-1] != 0;
+    }
+
+    private void seat_sell(int rowNum,int seatNum) {
+        seats[rowNum-1][seatNum-1] = 1;
+    }
+
+    private boolean seat_isValid(int rowNum,int seatNum) {
+        return (rowNum < 1 || rowNum > rowCount || seatNum < 1 || seatNumber > seatCount);
+    }
+
+    private boolean seat_isFront(int rowNum) {
+        return (rowNum <= rowCount / 2);
+    }
+
+    // ----------------------------------------------------------------------------
 
     public void createCinemaRoom() {
         System.out.println("Enter the number of rows:");
@@ -61,9 +93,9 @@ public class Room {
     }
 
     public void initSeats() {
-        for (int rowIdx = 0; rowIdx < rowCount; rowIdx++) {
-            for (int seatIdx = 0; seatIdx < seatCount; seatIdx++) {
-                seats[rowIdx][seatIdx] = 0;
+        for (int row = 1; row <= rowCount; row++) {
+            for (int seat = 1; seat <= seatCount; seat++) {
+                seat_available(row,seat);
             }
         }
     }
@@ -79,8 +111,7 @@ public class Room {
         for (int rowIdx = 0; rowIdx< rowCount; rowIdx++) {
             sb.append(String.format("%2d:",rowIdx+1));
             for (int seatIdx = 0; seatIdx< seatCount; seatIdx++) {
-                var seat = (seats[rowIdx][seatIdx]==0)?"-":"S";
-                sb.append(String.format("%3s", seat));
+                sb.append("  "+seat_toString(rowIdx+1, seatIdx+1));
             }
             sb.append("\n");
         }
@@ -100,7 +131,7 @@ public class Room {
     private void countCurrentIncome() {
         if (totalSeats <= 60) {
             currentIncome += FRONT_PRICE;
-        } else if ((rowIdx <= rowCount / 2)) {
+        } else if (seat_isFront(rowNumber)) {
             currentIncome += FRONT_PRICE;
         } else {
             currentIncome += BACK_PRICE;
@@ -126,7 +157,7 @@ public class Room {
         int frontSeats = rowCount / 2 * seatCount;
         int backSeats = totalSeats - frontSeats;
 
-        if (rowIdx <= rowCount / 2) {
+        if (rowNumber <= rowCount / 2) {
             ticketPrice = FRONT_PRICE;
         } else {
             ticketPrice = BACK_PRICE;
@@ -134,26 +165,18 @@ public class Room {
         setTotalIncome(frontSeats * FRONT_PRICE + backSeats * BACK_PRICE);
     }
 
-    private boolean isSoldSeat(int rowIdx,int seatIdx) {
-        return seats[rowIdx-1][seatIdx-1] != 0;
-    }
-
-    private void sellSeat(int rowIdx,int seaIdx) {
-        seats[rowIdx-1][seatIdx-1] = 1;
-    }
-
     private void selectSeat() {
         do {
             System.out.println("Enter a row number:");
-            rowIdx = sc.nextInt();
+            rowNumber = sc.nextInt();
             System.out.println("Enter a seat number in that row:");
-            seatIdx = sc.nextInt();
-            if (rowIdx < 1 || rowIdx > seats.length || seatIdx < 1 || seatIdx > seats[rowIdx-1].length) {
+            seatNumber = sc.nextInt();
+            if (seat_isValid(rowNumber, seatNumber)) {
                 System.out.println("Wrong input");
-            } else if (isSoldSeat(rowIdx,seatIdx)) {
+            } else if (seat_isSold(rowNumber, seatNumber)) {
                 System.out.println("That ticket has already been purchased!");
             } else {
-                sellSeat(rowIdx,seatIdx);
+                seat_sell(rowNumber, seatNumber);
                 return;
             }
         } while (false);
