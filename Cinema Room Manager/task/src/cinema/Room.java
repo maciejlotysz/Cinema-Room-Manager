@@ -11,13 +11,13 @@ public class Room {
     private final int FRONT_PRICE = 10;
     private final int BACK_PRICE = 8;
 
-    private String[][] seats;
+    private int[][] seats;
 
     private int rowCount;
     private int seatCount;
 
-    private int rowIdx;
-    private int seatIdx;
+    private int rowNumber;
+    private int seatNumber;
 
     private int totalSeats;
     private int currentIncome;
@@ -49,29 +49,53 @@ public class Room {
         this.totalIncome = totalIncome;
     }
 
+    // ----------------------------------------------------------------------------
+    // Seat
+    // ----------------------------------------------------------------------------
+
+    private void seat_available(int rowNum, int seatNum) {
+        seats[rowNum-1][seatNum-1] = 0;
+    }
+    private void seat_sold(int rowNum, int seatNum) {
+        seats[rowNum-1][seatNum-1] = 1;
+    }
+
+    private String seat_toString(int rowNum, int seatNum) {
+        return (seats[rowNum - 1][seatNum - 1] == 0)?"-":"S";
+    }
+
+    private boolean seat_isSold(int rowNum,int seatNum) {
+        return seats[rowNum-1][seatNum-1] != 0;
+    }
+
+    private void seat_sell(int rowNum,int seatNum) {
+        seats[rowNum-1][seatNum-1] = 1;
+    }
+
+    private boolean seat_isValid(int rowNum,int seatNum) {
+        return (rowNum < 1 || rowNum > rowCount || seatNum < 1 || seatNumber > seatCount);
+    }
+
+    private boolean seat_isFront(int rowNum) {
+        return (rowNum <= rowCount / 2);
+    }
+
+    // ----------------------------------------------------------------------------
 
     public void createCinemaRoom() {
         System.out.println("Enter the number of rows:");
         rowCount = sc.nextInt();
         System.out.println("Enter the number of seats in each row:");
         seatCount = sc.nextInt();
-        seats = new String[rowCount + 1][seatCount + 1];
-        fillSeats();
+        seats = new int[rowCount][seatCount];
+        initSeats();
         settingTicketPrice();
     }
 
-    public void fillSeats() {
-        for (int i = 0; i < seats.length; i++) {
-            for (int j = 0; j < seats[i].length; j++) {
-                if (i == 0 && j == 0) {
-                    seats[i][j] = " ";
-                } else if (i == 0) {
-                    seats[i][j] = String.valueOf(j);
-                } else if (j == 0) {
-                    seats[i][j] = String.valueOf(i);
-                } else {
-                    seats[i][j] = "S";
-                }
+    public void initSeats() {
+        for (int row = 1; row <= rowCount; row++) {
+            for (int seat = 1; seat <= seatCount; seat++) {
+                seat_available(row,seat);
             }
         }
     }
@@ -80,14 +104,14 @@ public class Room {
         var sb =  new StringBuilder();
         sb.append("Cinema:\n");
         sb.append("   ");
-        for (int seatIdx = 1; seatIdx<= seatCount; seatIdx++) {
-            sb.append(String.format("%3d",seatIdx));
+        for (int seatIdx = 0; seatIdx< seatCount; seatIdx++) {
+            sb.append(String.format("%3d",seatIdx+1));
         }
         sb.append("\n");
-        for (int rowIdx = 1; rowIdx<= rowCount; rowIdx++) {
-            sb.append(String.format("%2d:",rowIdx));
-            for (int seatIdx = 1; seatIdx<= seatCount; seatIdx++) {
-                sb.append(String.format("%3s", seats[rowIdx][seatIdx]));
+        for (int rowIdx = 0; rowIdx< rowCount; rowIdx++) {
+            sb.append(String.format("%2d:",rowIdx+1));
+            for (int seatIdx = 0; seatIdx< seatCount; seatIdx++) {
+                sb.append("  "+seat_toString(rowIdx+1, seatIdx+1));
             }
             sb.append("\n");
         }
@@ -107,7 +131,7 @@ public class Room {
     private void countCurrentIncome() {
         if (totalSeats <= 60) {
             currentIncome += FRONT_PRICE;
-        } else if ((rowIdx <= rowCount / 2)) {
+        } else if (seat_isFront(rowNumber)) {
             currentIncome += FRONT_PRICE;
         } else {
             currentIncome += BACK_PRICE;
@@ -133,7 +157,7 @@ public class Room {
         int frontSeats = rowCount / 2 * seatCount;
         int backSeats = totalSeats - frontSeats;
 
-        if (rowIdx <= rowCount / 2) {
+        if (rowNumber <= rowCount / 2) {
             ticketPrice = FRONT_PRICE;
         } else {
             ticketPrice = BACK_PRICE;
@@ -142,21 +166,20 @@ public class Room {
     }
 
     private void selectSeat() {
-        boolean flag = true;
         do {
             System.out.println("Enter a row number:");
-            rowIdx = sc.nextInt();
+            rowNumber = sc.nextInt();
             System.out.println("Enter a seat number in that row:");
-            seatIdx = sc.nextInt();
-            if (rowIdx < 0 || rowIdx > seats.length - 1 || seatIdx < 0 || seatIdx > seats[rowIdx].length - 1) {
+            seatNumber = sc.nextInt();
+            if (seat_isValid(rowNumber, seatNumber)) {
                 System.out.println("Wrong input");
-            } else if (seats[rowIdx][seatIdx].equalsIgnoreCase("B")) {
+            } else if (seat_isSold(rowNumber, seatNumber)) {
                 System.out.println("That ticket has already been purchased!");
             } else {
-                flag = false;
+                seat_sell(rowNumber, seatNumber);
+                return;
             }
-        } while (flag);
-        seats[rowIdx][seatIdx] = "B";
+        } while (false);
     }
 
     public void displayStatistics() {
