@@ -64,15 +64,15 @@ public class Room {
         return (seats[rowNum - 1][seatNum - 1] == 0)?"-":"S";
     }
 
-    private boolean seat_isSold(int rowNum,int seatNum) {
+    private boolean seat_isSold(int rowNum, int seatNum) {
         return seats[rowNum-1][seatNum-1] != 0;
     }
 
-    private void seat_sell(int rowNum,int seatNum) {
+    private void seat_sell(int rowNum, int seatNum) {
         seats[rowNum-1][seatNum-1] = 1;
     }
 
-    private boolean seat_isValid(int rowNum,int seatNum) {
+    private boolean seat_isValid(int rowNum, int seatNum) {
         return (rowNum < 1 || rowNum > rowCount || seatNum < 1 || seatNumber > seatCount);
     }
 
