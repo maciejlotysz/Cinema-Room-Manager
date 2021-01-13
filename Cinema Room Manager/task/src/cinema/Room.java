@@ -17,7 +17,6 @@ public class Room {
     private int seatCount;
 
     private int rowNumber;
-    private int seatNumber;
 
     private int totalSeats;
     private int currentIncome;
@@ -164,7 +163,7 @@ public class Room {
             System.out.println("Enter a row number:");
             rowNumber = sc.nextInt();
             System.out.println("Enter a seat number in that row:");
-            seatNumber = sc.nextInt();
+            int seatNumber = sc.nextInt();
             if (seat_isValid(rowNumber, seatNumber)) {
                 System.out.println("Wrong input");
             } else if (seat_isSold(rowNumber, seatNumber)) {
