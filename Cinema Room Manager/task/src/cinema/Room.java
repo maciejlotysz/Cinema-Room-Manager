@@ -158,15 +158,15 @@ public class Room {
         setTotalIncome(frontSeats * FRONT_PRICE + backSeats * BACK_PRICE);
     }
 
-    private void selectSeat() {
+    private void selectSeat(int rowNum, int seatNum) {
         do {
 
-            if (seat_isValid(rowNumber, seatNumber)) {
+            if (seat_isValid(rowNum, seatNum)) {
                 System.out.println("Wrong input");
-            } else if (seat_isSold(rowNumber, seatNumber)) {
+            } else if (seat_isSold(rowNum, seatNum)) {
                 System.out.println("That ticket has already been purchased!");
             } else {
-                seat_sell(rowNumber, seatNumber);
+                seat_sell(rowNum, seatNum);
                 return;
             }
         } while (false);
