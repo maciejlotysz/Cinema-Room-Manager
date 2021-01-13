@@ -73,7 +73,7 @@ public class Room {
     }
 
     private boolean seat_isValid(int rowNum, int seatNum) {
-        return (rowNum < 1 || rowNum > rowCount || seatNum < 1 || seatNumber > seatCount);
+        return (rowNum < 1 || rowNum > rowCount || seatNum < 1 || seatNum > seatCount);
     }
 
     private boolean seat_isFront(int rowNum) {
