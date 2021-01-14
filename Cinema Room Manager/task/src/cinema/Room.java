@@ -17,7 +17,6 @@ public class Room {
     private int seatCount;
 
     private int rowNumber;
-    private int seatNumber;
 
     private int totalSeats;
     private int currentIncome;
@@ -64,16 +63,15 @@ public class Room {
         return (seats[rowNum - 1][seatNum - 1] == 0)?"-":"S";
     }
 
-    private boolean seat_isSold(int rowNum, int seatNum) {
+    public boolean seat_isSold(int rowNum, int seatNum) {
         return seats[rowNum-1][seatNum-1] != 0;
+    }
+    public boolean seat_isValid(int rowNum, int seatNum) {
+        return (rowNum < 1 || rowNum > rowCount || seatNum < 1 || seatNum > seatCount);
     }
 
     private void seat_sell(int rowNum, int seatNum) {
         seats[rowNum-1][seatNum-1] = 1;
-    }
-
-    private boolean seat_isValid(int rowNum, int seatNum) {
-        return (rowNum < 1 || rowNum > rowCount || seatNum < 1 || seatNumber > seatCount);
     }
 
     private boolean seat_isFront(int rowNum) {
@@ -112,8 +110,8 @@ public class Room {
         return sb.toString();
     }
 
-    public void buyTicket() {
-        selectSeat();
+    public void buyTicket(int rowNum, int seatNum) {
+        seat_sell(rowNum, seatNum);
         settingTicketPrice();
         countCurrentIncome();
         soldTickets++;
@@ -159,22 +157,15 @@ public class Room {
         setTotalIncome(frontSeats * FRONT_PRICE + backSeats * BACK_PRICE);
     }
 
-    private void selectSeat() {
-        do {
-            System.out.println("Enter a row number:");
-            rowNumber = sc.nextInt();
-            System.out.println("Enter a seat number in that row:");
-            seatNumber = sc.nextInt();
-            if (seat_isValid(rowNumber, seatNumber)) {
-                System.out.println("Wrong input");
-            } else if (seat_isSold(rowNumber, seatNumber)) {
-                System.out.println("That ticket has already been purchased!");
-            } else {
-                seat_sell(rowNumber, seatNumber);
-                return;
-            }
-        } while (false);
-    }
+//    private void selectSeat(int rowNum, int seatNum) {
+//            if (seat_isValid(rowNum, seatNum)) {
+//                System.out.println("Wrong input");
+//            } else if (seat_isSold(rowNum, seatNum)) {
+//                System.out.println("That ticket has already been purchased!");
+//            } else {
+//                seat_sell(rowNum, seatNum);
+//            }
+//    }
 
     public void displayStatistics() {
         String s = String.format("Number of purchased tickets: %d \nPercentage: %.2f%%  \nCurrent income: $%d" +

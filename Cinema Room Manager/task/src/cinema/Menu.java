@@ -9,6 +9,7 @@ public class Menu {
         Scanner sc =  new Scanner(System.in);
         Room room = new Room();
 
+
         System.out.println("Enter the number of rows:");
         var rowCount = sc.nextInt();
         System.out.println("Enter the number of seats in each row:");
@@ -26,7 +27,24 @@ public class Menu {
                     System.out.println(roomView);
                     break;
                 case 2:
-                    room.buyTicket();
+                    boolean seatEntered = false;
+                    int selectedRowNumber;
+                    int selectedSeatNumber;
+                    while (!seatEntered) {
+                        System.out.println("Enter a row number:");
+                        selectedRowNumber = sc.nextInt();
+                        System.out.println("Enter a seat number in that row:");
+                        selectedSeatNumber = sc.nextInt();
+                        if (room.seat_isValid(selectedRowNumber, selectedSeatNumber)) {
+                            System.out.println("Wrong input");
+                        } else if (room.seat_isSold(selectedRowNumber, selectedSeatNumber)) {
+                            System.out.println("That ticket has already been purchased!");
+                        } else {
+                            room.buyTicket(selectedRowNumber, selectedSeatNumber);
+                            seatEntered = true;
+                        }
+                    }
+
                     break;
                 case 3:
                     room.displayStatistics();
