@@ -1,13 +1,10 @@
 package cinema;
 
-import java.util.Scanner;
-
 public class Room {
 
     private static int soldTickets = 0;
     private static double percentage = 0;
 
-    Scanner sc = new Scanner(System.in);
     private final int FRONT_PRICE = 10;
     private final int BACK_PRICE = 8;
 
@@ -15,7 +12,7 @@ public class Room {
 
     private int rowCount;
     private int seatCount;
-    
+
     private int totalSeats;
     private int currentIncome;
     private int totalIncome;
