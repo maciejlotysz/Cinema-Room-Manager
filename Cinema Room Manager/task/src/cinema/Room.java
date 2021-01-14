@@ -112,7 +112,7 @@ public class Room {
     }
 
     public void buyTicket(int rowNum, int seatNum) {
-        selectSeat(rowNum, seatNum);
+
         settingTicketPrice();
         countCurrentIncome();
         soldTickets++;
