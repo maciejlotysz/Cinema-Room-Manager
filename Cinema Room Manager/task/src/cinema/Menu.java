@@ -26,7 +26,11 @@ public class Menu {
                     System.out.println(roomView);
                     break;
                 case 2:
-                    room.buyTicket();
+                    System.out.println("Enter a row number:");
+                    int rowNumber = sc.nextInt();
+                    System.out.println("Enter a seat number in that row:");
+                    int seatNumber = sc.nextInt();
+                    room.buyTicket(rowNumber, seatNumber);
                     break;
                 case 3:
                     room.displayStatistics();

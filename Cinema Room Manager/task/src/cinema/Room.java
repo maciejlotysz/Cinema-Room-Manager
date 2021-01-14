@@ -111,8 +111,8 @@ public class Room {
         return sb.toString();
     }
 
-    public void buyTicket() {
-        selectSeat();
+    public void buyTicket(int rowNum, int seatNum) {
+        selectSeat(rowNum, seatNum);
         settingTicketPrice();
         countCurrentIncome();
         soldTickets++;
@@ -158,21 +158,14 @@ public class Room {
         setTotalIncome(frontSeats * FRONT_PRICE + backSeats * BACK_PRICE);
     }
 
-    private void selectSeat() {
-        do {
-            System.out.println("Enter a row number:");
-            rowNumber = sc.nextInt();
-            System.out.println("Enter a seat number in that row:");
-            int seatNumber = sc.nextInt();
-            if (seat_isValid(rowNumber, seatNumber)) {
+    private void selectSeat(int rowNum, int seatNum) {
+            if (seat_isValid(rowNum, seatNum)) {
                 System.out.println("Wrong input");
-            } else if (seat_isSold(rowNumber, seatNumber)) {
+            } else if (seat_isSold(rowNum, seatNum)) {
                 System.out.println("That ticket has already been purchased!");
             } else {
-                seat_sell(rowNumber, seatNumber);
-                return;
+                seat_sell(rowNum, seatNum);
             }
-        } while (false);
     }
 
     public void displayStatistics() {
