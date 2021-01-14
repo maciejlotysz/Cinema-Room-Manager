@@ -15,9 +15,7 @@ public class Room {
 
     private int rowCount;
     private int seatCount;
-
-    private int rowNumber;
-
+    
     private int totalSeats;
     private int currentIncome;
     private int totalIncome;
