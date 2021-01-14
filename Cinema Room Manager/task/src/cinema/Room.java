@@ -50,6 +50,7 @@ public class Room {
     private void seat_available(int rowNum, int seatNum) {
         seats[rowNum-1][seatNum-1] = 0;
     }
+    // FIXME: Private method 'seat_sold(int, int)' is never used
     private void seat_sold(int rowNum, int seatNum) {
         seats[rowNum-1][seatNum-1] = 1;
     }
@@ -98,6 +99,9 @@ public class Room {
         for (int rowIdx = 0; rowIdx< rowCount; rowIdx++) {
             sb.append(String.format("%2d:",rowIdx+1));
             for (int seatIdx = 0; seatIdx< seatCount; seatIdx++) {
+                // FIXME: Problem String concatenation as argument to 'StringBuilder.append()' call
+                // please use: String.format and seat_isSold method with ternary operator instead of seat_toString
+                // seat_toString can be removed
                 sb.append("  "+seat_toString(rowIdx+1, seatIdx+1));
             }
             sb.append("\n");
@@ -105,17 +109,23 @@ public class Room {
         return sb.toString();
     }
 
+    // TODO: return new Ticket object (price, rows, seat)
     public void buyTicket(int rowNum, int seatNum) {
         seat_sell(rowNum, seatNum);
         settingTicketPrice(rowNum);
+        // TODO: countCurrentIncome => calcCurrentIncome
+        // TODO: calcCurrentIncome should be called directly in the displayStatistics() method (not here)
         countCurrentIncome(rowNum);
         soldTickets++;
+        // FIXME: move percentage to displayStatistics and remove percentage class field
         percentage = (double) soldTickets * 100 / totalSeats;
+        // FIXME: remove println
         System.out.println("Ticket price: $" + ticketPrice);
         System.out.println();
     }
 
     private void countCurrentIncome(int rowNum) {
+        // FIXME: code duplication (check settingTicketPrice comments)
         if (totalSeats <= 60) {
             currentIncome += FRONT_PRICE;
         } else if (seat_isFront(rowNum)) {
@@ -126,7 +136,11 @@ public class Room {
         setCurrentIncome(currentIncome);
     }
 
+    // TODO: Change to: `private int getTicketPrice(int rowNum)`
     private void settingTicketPrice(int rowNum) {
+        // FIXME: code duplication
+        //   if you would inline methods smallCinemaRoomPrices and bigCinemaRoomPrices you will
+        //   have the same if else statement like in countCurrentIncome method
         totalSeats = rowCount * seatCount;
         if (totalSeats <= 60) {
             smallCinemaRoomPrices();
@@ -136,7 +150,10 @@ public class Room {
     }
 
     private void smallCinemaRoomPrices() {
+        // TODO: Remove ticketPrice class field
         ticketPrice = FRONT_PRICE;
+        // TODO: totalIncome should be calculated in the separate method: calcTotalIncome()
+        //    calcTotalIncome should be called directly in the displayStatistics method
         setTotalIncome(totalSeats * ticketPrice);
     }
 
