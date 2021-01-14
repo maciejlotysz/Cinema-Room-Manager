@@ -30,7 +30,7 @@ public class Menu {
                     int rowNumber = sc.nextInt();
                     System.out.println("Enter a seat number in that row:");
                     int seatNumber = sc.nextInt();
-                    room.buyTicket();
+                    room.buyTicket(rowNumber, seatNumber);
                     break;
                 case 3:
                     room.displayStatistics();
