@@ -1,13 +1,10 @@
 package cinema;
 
-import java.util.Scanner;
-
 public class Room {
 
     private static int soldTickets = 0;
     private static double percentage = 0;
 
-    Scanner sc = new Scanner(System.in);
     private final int FRONT_PRICE = 10;
     private final int BACK_PRICE = 8;
 
@@ -15,8 +12,6 @@ public class Room {
 
     private int rowCount;
     private int seatCount;
-
-    private int rowNumber;
 
     private int totalSeats;
     private int currentIncome;
@@ -89,7 +84,7 @@ public class Room {
                 seat_available(row,seat);
             }
         }
-        settingTicketPrice();
+        settingTicketPrice(rowCount);
     }
 
     public String getSeatsView() {
@@ -112,18 +107,18 @@ public class Room {
 
     public void buyTicket(int rowNum, int seatNum) {
         seat_sell(rowNum, seatNum);
-        settingTicketPrice();
-        countCurrentIncome();
+        settingTicketPrice(rowNum);
+        countCurrentIncome(rowNum);
         soldTickets++;
         percentage = (double) soldTickets * 100 / totalSeats;
         System.out.println("Ticket price: $" + ticketPrice);
         System.out.println();
     }
 
-    private void countCurrentIncome() {
+    private void countCurrentIncome(int rowNum) {
         if (totalSeats <= 60) {
             currentIncome += FRONT_PRICE;
-        } else if (seat_isFront(rowNumber)) {
+        } else if (seat_isFront(rowNum)) {
             currentIncome += FRONT_PRICE;
         } else {
             currentIncome += BACK_PRICE;
@@ -131,12 +126,12 @@ public class Room {
         setCurrentIncome(currentIncome);
     }
 
-    private void settingTicketPrice() {
+    private void settingTicketPrice(int rowNum) {
         totalSeats = rowCount * seatCount;
         if (totalSeats <= 60) {
             smallCinemaRoomPrices();
         } else {
-            bigCinemaRoomPrices();
+            bigCinemaRoomPrices(rowNum);
         }
     }
 
@@ -145,27 +140,17 @@ public class Room {
         setTotalIncome(totalSeats * ticketPrice);
     }
 
-    private void bigCinemaRoomPrices() {
+    private void bigCinemaRoomPrices(int rowNum) {
         int frontSeats = rowCount / 2 * seatCount;
         int backSeats = totalSeats - frontSeats;
 
-        if (rowNumber <= rowCount / 2) {
+        if (rowNum <= rowCount / 2) {
             ticketPrice = FRONT_PRICE;
         } else {
             ticketPrice = BACK_PRICE;
         }
         setTotalIncome(frontSeats * FRONT_PRICE + backSeats * BACK_PRICE);
     }
-
-//    private void selectSeat(int rowNum, int seatNum) {
-//            if (seat_isValid(rowNum, seatNum)) {
-//                System.out.println("Wrong input");
-//            } else if (seat_isSold(rowNum, seatNum)) {
-//                System.out.println("That ticket has already been purchased!");
-//            } else {
-//                seat_sell(rowNum, seatNum);
-//            }
-//    }
 
     public void displayStatistics() {
         String s = String.format("Number of purchased tickets: %d \nPercentage: %.2f%%  \nCurrent income: $%d" +
