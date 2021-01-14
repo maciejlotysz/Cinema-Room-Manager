@@ -159,8 +159,7 @@ public class Room {
     }
 
     private void selectSeat(int rowNum, int seatNum) {
-        do {
-
+        while (true) {
             if (seat_isValid(rowNum, seatNum)) {
                 System.out.println("Wrong input");
             } else if (seat_isSold(rowNum, seatNum)) {
@@ -169,7 +168,7 @@ public class Room {
                 seat_sell(rowNum, seatNum);
                 return;
             }
-        } while (false);
+        } 
     }
 
     public void displayStatistics() {
